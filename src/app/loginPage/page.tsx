@@ -101,127 +101,145 @@ const LoginPage = () => {
   return (
     <>
       <div
-        className={`container-login ${!isLogin ? "right-panel-active" : ""}`}
-        id="container"
+        style={{
+          backgroundImage: "url(/images/abstract-green-waves-1.png)",
+          backgroundAttachment: "fixed",
+          backgroundSize: "cover",
+        }}
       >
-        <div className="form-container sign-up-container ">
-          <form action="" onSubmit={handleRegister}>
-            <h1 className="text-3xl">Create Account</h1>
-            <input
-              required
-              type="text"
-              placeholder="first name"
-              value={firstName}
-              onChange={(event) => setFirstName(event.target.value)}
-              name="firstName"
-            />
-            <input
-              required
-              type="text"
-              placeholder="second name"
-              value={lastName}
-              onChange={(event) => setLastName(event.target.value)}
-              name="lastName"
-            />
-            <input
-              required
-              type="text"
-              placeholder="username"
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-            />
-            <input
-              type="password"
-              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-              title="Password must contain at least 8 characters, including one lowercase letter, one uppercase letter, one digit, and one special character."
-              lang="en"
-              placeholder="Password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-            <input
-              required
-              type="password"
-              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-              title="Password must contain at least 8 characters, including one lowercase letter, one uppercase letter, one digit, and one special character."
-              lang="en"
-              placeholder="confirm password"
-              value={passwordConfirm}
-              style={{
-                border: !isPasswordCorrect ? "1px solid #395c28" : "none",
-              }}
-              onChange={(event) => {
-                setPasswordConfirm(event.target.value);
-              }}
-            />
-            <button type="submit" disabled={loading}>
-              Sign Up
-            </button>
-          </form>
-        </div>
-        <div className="form-container sign-in-container ">
-          <form action="" onSubmit={handleLogin}>
-            <h1 className="text-3xl">Sign in</h1>
-            <div className="social-container">
-              <Link href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
-              </Link>
-              <Link href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
-              </Link>
-              <Link href="#" className="social">
-                <i className="fa-brands fa-github"></i>
-              </Link>
+        <h2 className="text-cyan-50 text-right p-3">
+          @Dont give up, fight for your{" "}
+          <span className="text-2xl text-cyan-700">Dreams</span>
+        </h2>
+
+        <div className="general-container">
+          <div
+            className={`container-login ${
+              !isLogin ? "right-panel-active" : ""
+            }`}
+            id="container"
+          >
+            <div className="form-container sign-up-container ">
+              <form action="" onSubmit={handleRegister}>
+                <h1 className="text-3xl">Create Account</h1>
+                <input
+                  required
+                  type="text"
+                  placeholder="first name"
+                  value={firstName}
+                  onChange={(event) => setFirstName(event.target.value)}
+                  name="firstName"
+                />
+                <input
+                  required
+                  type="text"
+                  placeholder="second name"
+                  value={lastName}
+                  onChange={(event) => setLastName(event.target.value)}
+                  name="lastName"
+                />
+                <input
+                  required
+                  type="text"
+                  placeholder="username"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                />
+                <input
+                  type="password"
+                  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                  title="Password must contain at least 8 characters, including one lowercase letter, one uppercase letter, one digit, and one special character."
+                  lang="en"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+                <input
+                  required
+                  type="password"
+                  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                  title="Password must contain at least 8 characters, including one lowercase letter, one uppercase letter, one digit, and one special character."
+                  lang="en"
+                  placeholder="confirm password"
+                  value={passwordConfirm}
+                  style={{
+                    border: !isPasswordCorrect ? "1px solid #395c28" : "none",
+                  }}
+                  onChange={(event) => {
+                    setPasswordConfirm(event.target.value);
+                  }}
+                />
+                <button type="submit" disabled={loading}>
+                  Sign Up
+                </button>
+              </form>
             </div>
-            <span>or use your account</span>
-            <input
-              type="text"
-              placeholder="username"
-              required
-              value={usernameSignIn}
-              onChange={(event) => setUsernameSignIn(event.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              title="Password must contain at least 8 characters, including one lowercase letter, one uppercase letter, one digit, and one special character."
-              lang="en"
-              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-              value={passwordSignIn}
-              onChange={(event) => setPasswordSignIn(event.target.value)}
-            />
-            <Link href="#">Forgot your password?</Link>
-            <button type="submit">Sign In</button>
-          </form>
-        </div>
-        <div className="overlay-container">
-          <div className="overlay">
-            <div className="overlay-panel overlay-left">
-              <h1 className="text-3xl">Welcome Back!</h1>
-              <p>
-                To keep connected with us please login with your personal info
-              </p>
-              <button
-                className="ghost"
-                id="signIn"
-                type="submit"
-                onClick={() => setIsLogin(true)}
-              >
-                Sign In
-              </button>
+            <div className="form-container sign-in-container ">
+              <form action="" onSubmit={handleLogin}>
+                <h1 className="text-3xl">Sign in</h1>
+                <div className="social-container">
+                  <Link href="#" className="social">
+                    <i className="fab fa-facebook-f"></i>
+                  </Link>
+                  <Link href="#" className="social">
+                    <i className="fab fa-google-plus-g"></i>
+                  </Link>
+                  <Link href="#" className="social">
+                    <i className="fa-brands fa-github"></i>
+                  </Link>
+                </div>
+                <span>or use your account</span>
+                <input
+                  type="text"
+                  placeholder="username"
+                  required
+                  value={usernameSignIn}
+                  onChange={(event) => setUsernameSignIn(event.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  title="Password must contain at least 8 characters, including one lowercase letter, one uppercase letter, one digit, and one special character."
+                  lang="en"
+                  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                  value={passwordSignIn}
+                  onChange={(event) => setPasswordSignIn(event.target.value)}
+                />
+                <Link href="#">Forgot your password?</Link>
+                <button type="submit">Sign In</button>
+              </form>
             </div>
-            <div className="overlay-panel overlay-right">
-              <h1 className="text-3xl">Hello, Friend!</h1>
-              <p>Enter your personal details and start journey with us</p>
-              <button
-                disabled={loading}
-                className="ghost"
-                id="signUp"
-                type="submit"
-                onClick={() => setIsLogin(false)}
-              >
-                Sign Up
-              </button>
+            <div className="overlay-container">
+              <div className="overlay">
+                <div className="overlay-panel overlay-left">
+                  <h1 className="text-3xl">Welcome Back!</h1>
+                  <p>
+                    To keep connected with us please login with your personal
+                    info
+                  </p>
+                  <button
+                    className="ghost"
+                    id="signIn"
+                    type="submit"
+                    onClick={() => setIsLogin(true)}
+                  >
+                    Sign In
+                  </button>
+                </div>
+                <div className="overlay-panel overlay-right">
+                  <h1 className="text-3xl">Hello, Friend!</h1>
+                  <p>Enter your personal details and start journey with us</p>
+                  <button
+                    disabled={loading}
+                    className="ghost"
+                    id="signUp"
+                    type="submit"
+                    onClick={() => setIsLogin(false)}
+                  >
+                    Sign Up
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

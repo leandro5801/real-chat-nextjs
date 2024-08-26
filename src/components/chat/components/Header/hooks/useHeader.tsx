@@ -1,8 +1,22 @@
+import { Conversation } from "@/components/chat/domain";
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { debounce } from "lodash";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-export default function useHeader() {
+export default function useHeader(
+  conversations: Conversation[],
+  setFilter: Dispatch<SetStateAction<Conversation[]>>
+) {
   const [isSelected, setIsSelected] = useState<boolean>(false);
+
   const ref = useRef<HTMLDivElement>(null);
   const ClassContainerSearch = clsx(
     isSelected
@@ -17,15 +31,37 @@ export default function useHeader() {
   );
 
   const ClassIconSearch = clsx(
-    "rounded-3xl",
+    "rounded-full",
     isSelected ? "bg-black " : "hover:border-2 border-green-600"
   );
+
   const handleSelectHeader = () => {
     setIsSelected(!isSelected);
   };
 
+  function handleInputFilter(e: ChangeEvent<HTMLInputElement>) {
+    const searchTerm = e.target.value.toLowerCase();
+    setFilter(
+      conversations.filter((conversation) => {
+        const conversationName = conversation.name_conversation.toLowerCase();
+
+        if (conversation.name_conversation !== " ") {
+          return conversationName.includes(searchTerm);
+        } else {
+          const username = conversation.members[0].username.toLowerCase();
+          return username.includes(searchTerm);
+        }
+      })
+    );
+  }
+
+  function clearFilter() {
+    setFilter(conversations);
+  }
+
   const handleClickOutside = (event: MouseEvent) => {
     if (ref.current && !ref.current.contains(event.target as Node | null)) {
+      clearFilter();
       setIsSelected(false);
     }
   };
@@ -44,5 +80,7 @@ export default function useHeader() {
     ClassInputSearch,
     ClassIconSearch,
     ref,
+    handleInputFilter,
+    clearFilter,
   };
 }

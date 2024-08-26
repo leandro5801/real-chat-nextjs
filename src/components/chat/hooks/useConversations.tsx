@@ -1,13 +1,6 @@
 "use client";
 
-import React, {
-  ChangeEvent,
-  ChangeEventHandler,
-  FormEventHandler,
-  InputHTMLAttributes,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Conversation, Filter, User } from "../domain";
 import axios, { AxiosError } from "axios";
 import useLocalStorage from "@/shared/hooks/useLocalStorage";
@@ -38,7 +31,10 @@ export default function useConversations() {
                 }))
               : [];
 
-            return { ...conversation, members: members };
+            return {
+              ...conversation,
+              members: members,
+            };
           }
         );
 
@@ -71,27 +67,13 @@ export default function useConversations() {
     setText(t);
   }
 
-  function handleInputFilter(e: ChangeEvent<HTMLInputElement>) {
-    const searchTerm = e.target.value.toLowerCase();
-    setFilter(
-      conversations.filter((conversation) => {
-        const conversationName = conversation.name_conversation.toLowerCase();
-
-        if (conversation.name_conversation !== " ") {
-          return conversationName.includes(searchTerm);
-        } else {
-          const username = conversation.members[0].username.toLowerCase();
-          return username.includes(searchTerm);
-        }
-      })
-    );
-  }
-
   return {
     handleChangeText,
     text,
     setText,
     filterConversations,
-    handleInputFilter,
+    setFilter,
+
+    conversations,
   };
 }

@@ -3,27 +3,37 @@ import React from "react";
 import useHeader from "./hooks/useHeader";
 import HeaderProps from "./domain";
 
-export default function Header({ handleInputFIlter }: HeaderProps) {
+export default function Header({
+  conversations,
+  userName,
+  setFilter,
+}: HeaderProps) {
   const {
     ClassInputSearch,
     ClassIconSearch,
     ClassContainerSearch,
     handleSelectHeader,
     ref,
-  } = useHeader();
+    handleInputFilter,
+    clearFilter,
+  } = useHeader(conversations, setFilter);
 
   return (
     <header className="flex justify-between bg-myColor-700 shadow-lg">
-      <h1 className="text-white m-3 ">Hi User</h1>
+      <h1 className="text-myColor-300  m-3 font-mono ">
+        Hi{" "}
+        <span className="text-myColor-50 text-justify text-xl">{userName}</span>
+      </h1>
       <div className="flex justify-end ">
         <div className="flex gap-4 items-center justify-between" ref={ref}>
           <div className={ClassContainerSearch}>
             <div>
               <input
                 type="text"
-                placeholder="search ..."
+                placeholder="Search..."
                 className={ClassInputSearch}
-                onInput={handleInputFIlter}
+                onInput={handleInputFilter}
+                onBlur={clearFilter}
               />
             </div>
             <div className={ClassIconSearch}>

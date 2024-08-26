@@ -10,6 +10,8 @@ import { io, Socket } from "socket.io-client";
 import { createContext } from "react";
 import { useRouter } from "next/navigation";
 import useLocalStorage from "@/shared/hooks/useLocalStorage";
+import { User } from "@/components/chat/domain";
+import axios from "axios";
 
 interface SocketContextType {
   socket: Socket;
@@ -19,10 +21,13 @@ interface SocketContextType {
 const SocketContext = createContext<SocketContextType>({} as SocketContextType);
 
 const SocketProvider = ({ children }: PropsWithChildren) => {
-  const [connectedUsers, setConnectedUsers] = useState({});
+  const [connectedUsers, setConnectedUsers] = useState<User[]>([]);
   const router = useRouter();
   const { get } = useLocalStorage();
 
+  const token = useMemo(() => {
+    return get("token");
+  }, []);
   const socket = useMemo(() => {
     const token = get("token");
     // useLocalStorage().remove("token");
@@ -34,7 +39,7 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
       auth: {
         token: token,
       },
-      autoConnect: false,
+      autoConnect: true,
     });
 
     socket.on("ping", () => {
@@ -58,9 +63,20 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
       console.error("Socket error:", error);
     });
     return () => {
+      console.log(token);
+      console.log("se desconecto");
+
       socket.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    socket.on("connectedUsers", (connectedUsers) => {
+      console.log(connectedUsers);
+
+      setConnectedUsers(connectedUsers);
+    });
+  }, [socket]);
 
   return (
     <SocketContext.Provider value={{ socket, connectedUsers }}>

@@ -3,7 +3,7 @@ export interface Conversation {
   name_conversation: string;
   isGroup: boolean;
   members: User[];
-  lastMessageDate: Date;
+  messages: LastMessage[];
 }
 
 export interface User {
@@ -11,6 +11,12 @@ export interface User {
   username: string;
   fullName: string;
   roles: string[];
+}
+
+export interface LastMessage {
+  id: string;
+  message: string;
+  createdAt: Date;
 }
 
 export enum Filter {

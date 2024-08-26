@@ -1,10 +1,12 @@
 // components/LayoutLogin.tsx
-import React from "react";
+import React, { useEffect } from "react";
 import { Metadata } from "next";
 import "./styles.css";
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
 import background from "@/images/abstract-green-waves-1.png";
+import { useRouter } from "next/navigation";
+import useLocalStorage from "@/shared/hooks/useLocalStorage";
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -24,29 +26,7 @@ const LayoutLogin: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
         />
       </Head>
 
-      <div
-        style={{
-          backgroundImage: "url(/images/abstract-green-waves-1.png)",
-          backgroundAttachment: "fixed",
-          backgroundSize: "cover",
-        }}
-      >
-        <h2 className="text-cyan-50 text-right p-7">
-          @Dont give up, fight for your{" "}
-          <span className="text-2xl text-cyan-700">Dreams</span>
-        </h2>
-
-        <div
-          className="general-container"
-          /* style={{
-          backgroundImage: `url(/images/abstract-green-waves-1.png)`,
-          backgroundSize: "contain",
-          backgroundPosition: "center",
-        }} */
-        >
-          {children}
-        </div>
-      </div>
+      {children}
     </>
   );
 };
