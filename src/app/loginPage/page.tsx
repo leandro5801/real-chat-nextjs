@@ -5,8 +5,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { HttpStatusCode } from "axios";
-import Image from "next/image";
-
+import "./styles.css";
 const instance = axios.create({
   baseURL: process.env.URL_API,
 });
@@ -44,6 +43,7 @@ const LoginPage = () => {
         .then(async (response: AxiosResponse) => {
           if (response.status === HttpStatusCode.Created) {
             localStorage.setItem("token", response.data.token);
+            localStorage.setItem("tokenExpirationTime", response.data.expireIn);
             router.push("/home");
           } else {
             toast.error(response.data.message);
@@ -107,9 +107,9 @@ const LoginPage = () => {
           backgroundSize: "cover",
         }}
       >
-        <h2 className="text-cyan-50 text-right p-3">
+        <h2 className="text-cyan-50 text-right p-3 h2">
           @Dont give up, fight for your{" "}
-          <span className="text-2xl text-cyan-700">Dreams</span>
+          <span className="text-2xl text-cyan-700 span">Dreams</span>
         </h2>
 
         <div className="general-container">
@@ -120,9 +120,10 @@ const LoginPage = () => {
             id="container"
           >
             <div className="form-container sign-up-container ">
-              <form action="" onSubmit={handleRegister}>
-                <h1 className="text-3xl">Create Account</h1>
+              <form action="" onSubmit={handleRegister} className="form">
+                <h1 className="text-3xl h1">Create Account</h1>
                 <input
+                  className="input"
                   required
                   type="text"
                   placeholder="first name"
@@ -131,6 +132,7 @@ const LoginPage = () => {
                   name="firstName"
                 />
                 <input
+                  className="input"
                   required
                   type="text"
                   placeholder="second name"
@@ -139,6 +141,7 @@ const LoginPage = () => {
                   name="lastName"
                 />
                 <input
+                  className="input"
                   required
                   type="text"
                   placeholder="username"
@@ -146,6 +149,7 @@ const LoginPage = () => {
                   onChange={(event) => setUsername(event.target.value)}
                 />
                 <input
+                  className="input"
                   type="password"
                   pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                   title="Password must contain at least 8 characters, including one lowercase letter, one uppercase letter, one digit, and one special character."
@@ -155,6 +159,7 @@ const LoginPage = () => {
                   onChange={(event) => setPassword(event.target.value)}
                 />
                 <input
+                  className="input"
                   required
                   type="password"
                   pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
@@ -169,14 +174,14 @@ const LoginPage = () => {
                     setPasswordConfirm(event.target.value);
                   }}
                 />
-                <button type="submit" disabled={loading}>
+                <button type="submit" className="button" disabled={loading}>
                   Sign Up
                 </button>
               </form>
             </div>
             <div className="form-container sign-in-container ">
-              <form action="" onSubmit={handleLogin}>
-                <h1 className="text-3xl">Sign in</h1>
+              <form action="" onSubmit={handleLogin} className="form">
+                <h1 className="text-3xl h1">Sign in</h1>
                 <div className="social-container">
                   <Link href="#" className="social">
                     <i className="fab fa-facebook-f"></i>
@@ -188,8 +193,9 @@ const LoginPage = () => {
                     <i className="fa-brands fa-github"></i>
                   </Link>
                 </div>
-                <span>or use your account</span>
+                <span className="span">or use your account</span>
                 <input
+                  className="input"
                   type="text"
                   placeholder="username"
                   required
@@ -197,6 +203,7 @@ const LoginPage = () => {
                   onChange={(event) => setUsernameSignIn(event.target.value)}
                 />
                 <input
+                  className="input"
                   type="password"
                   placeholder="Password"
                   title="Password must contain at least 8 characters, including one lowercase letter, one uppercase letter, one digit, and one special character."
@@ -206,19 +213,21 @@ const LoginPage = () => {
                   onChange={(event) => setPasswordSignIn(event.target.value)}
                 />
                 <Link href="#">Forgot your password?</Link>
-                <button type="submit">Sign In</button>
+                <button type="submit" className="button">
+                  Sign In
+                </button>
               </form>
             </div>
             <div className="overlay-container">
               <div className="overlay">
                 <div className="overlay-panel overlay-left">
-                  <h1 className="text-3xl">Welcome Back!</h1>
-                  <p>
+                  <h1 className="text-3xl h1">Welcome Back!</h1>
+                  <p className="p">
                     To keep connected with us please login with your personal
                     info
                   </p>
                   <button
-                    className="ghost"
+                    className="ghost button"
                     id="signIn"
                     type="submit"
                     onClick={() => setIsLogin(true)}
@@ -227,11 +236,13 @@ const LoginPage = () => {
                   </button>
                 </div>
                 <div className="overlay-panel overlay-right">
-                  <h1 className="text-3xl">Hello, Friend!</h1>
-                  <p>Enter your personal details and start journey with us</p>
+                  <h1 className="text-3xl h1">Hello, Friend!</h1>
+                  <p className="p">
+                    Enter your personal details and start journey with us
+                  </p>
                   <button
                     disabled={loading}
-                    className="ghost"
+                    className="ghost button"
                     id="signUp"
                     type="submit"
                     onClick={() => setIsLogin(false)}

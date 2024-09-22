@@ -1,26 +1,24 @@
-export interface Conversation {
-  id: string;
-  name_conversation: string;
-  isGroup: boolean;
-  members: User[];
-  messages: LastMessage[];
-}
+import { Conversation, User } from "@/components/conversations/domain";
+import { Dispatch, SetStateAction } from "react";
 
-export interface User {
-  socketId: string;
-  username: string;
-  fullName: string;
-  roles: string[];
-}
-
-export interface LastMessage {
-  id: string;
+export interface MessageItem {
+  id?: string;
+  conversation: string;
   message: string;
-  createdAt: Date;
+  sender: User;
+  createdAt?: Date;
+  isModified?: boolean;
 }
-
-export enum Filter {
-  FILTER_BY_GROUPS = "Groups",
-  FILTER_BY_CONTACTS = "Contacts",
-  NOT_FILTER = "All",
+export interface Props {
+  message: MessageItem;
+  setSelectedMessage: Dispatch<SetStateAction<MessageItem | null>>;
+  setIsModifyMode: Dispatch<SetStateAction<boolean>>;
+  selectedMessage: MessageItem | null;
+  OnDelete?(message: MessageItem): void;
+  OnUpdated(message: string): void;
+}
+export interface chatContainerProps {
+  messages: MessageItem[];
+  conversationSelected: Conversation | null;
+  setMessages: Dispatch<SetStateAction<MessageItem[]>>;
 }

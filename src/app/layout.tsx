@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { ToastContainer } from "react-toastify";
 import "./globals.css";
-import useLocalStorage from "@/shared/hooks/useLocalStorage";
 import { RouterProvider } from "@/contexts/routerContext";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,9 +22,11 @@ export default function RootLayout({
         />
       </head>
 
-      <body>
-        <ToastContainer />
-        <RouterProvider>{children}</RouterProvider>
+      <body className="h-screen w-full overflow-hidden">
+        <RouterProvider>
+          <ToastContainer />
+          {children}
+        </RouterProvider>
       </body>
     </html>
   );

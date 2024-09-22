@@ -1,27 +1,24 @@
 "use client";
-import {
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { createContext } from "react";
 import { useRouter } from "next/navigation";
 import useLocalStorage from "@/shared/hooks/useLocalStorage";
-import { User } from "@/components/chat/domain";
+import { User } from "@/components/conversations/domain";
 import axios from "axios";
 
 interface SocketContextType {
   socket: Socket;
   connectedUsers: {};
+  user: User | null;
 }
 
-const SocketContext = createContext<SocketContextType>({} as SocketContextType);
+const AuthContext = createContext<SocketContextType>({} as SocketContextType);
 
 const SocketProvider = ({ children }: PropsWithChildren) => {
   const [connectedUsers, setConnectedUsers] = useState<User[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+
   const router = useRouter();
   const { get } = useLocalStorage();
 
@@ -63,26 +60,42 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
       console.error("Socket error:", error);
     });
     return () => {
-      console.log(token);
-      console.log("se desconecto");
-
       socket.disconnect();
     };
   }, []);
 
   useEffect(() => {
     socket.on("connectedUsers", (connectedUsers) => {
-      console.log(connectedUsers);
-
       setConnectedUsers(connectedUsers);
     });
   }, [socket]);
 
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.URL_API}/auth/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const userProfile = response.data;
+        setUser(userProfile);
+        console.log(user);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+    fetchUserProfile();
+  }, [token]);
+
   return (
-    <SocketContext.Provider value={{ socket, connectedUsers }}>
+    <AuthContext.Provider value={{ socket, connectedUsers, user }}>
       {children}
-    </SocketContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export { SocketProvider, SocketContext };
+export { SocketProvider, AuthContext };

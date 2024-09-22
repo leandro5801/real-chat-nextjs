@@ -1,12 +1,11 @@
 // components/LayoutLogin.tsx
 import React, { useEffect } from "react";
 import { Metadata } from "next";
-import "./styles.css";
+
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
-import background from "@/images/abstract-green-waves-1.png";
-import { useRouter } from "next/navigation";
-import useLocalStorage from "@/shared/hooks/useLocalStorage";
+import { ToastContainer } from "react-toastify";
+
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -25,7 +24,7 @@ const LayoutLogin: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
           referrerPolicy="no-referrer"
         />
       </Head>
-
+      
       {children}
     </>
   );
