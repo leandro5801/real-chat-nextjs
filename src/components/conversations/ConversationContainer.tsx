@@ -6,6 +6,9 @@ import useConversations from "./hooks/useConversations";
 import Button from "./components/Button/Button";
 import { Filter, Props } from "./domain";
 import useUserConversation from "./hooks/useUserConversation";
+import { useContext } from "react";
+import { AuthContext } from "@/contexts/authContext";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 export default function ConversationContainer({ selectConversation }: Props) {
   const {
@@ -17,13 +20,15 @@ export default function ConversationContainer({ selectConversation }: Props) {
     clickOutside,
     handleSelectedConversation,
     handleClickOutside,
+    setConversations,
   } = useConversations(selectConversation);
-  const { user } = useUserConversation();
+  const { user } = useContext(AuthContext);
 
   return (
     <div className="h-full max-w-md w-full flex">
       <div className="border-solid rounded h-full w-full bg-opacity-2 bg-myColor-900">
         <Header
+          setConversations={setConversations}
           conversations={conversations}
           setFilter={setFilter}
           userName={user}
@@ -54,15 +59,16 @@ export default function ConversationContainer({ selectConversation }: Props) {
             clickOutside={clickOutside}
           />
         </div>
-
-        {filterConversations.map((chat) => (
-          <ConversationItem
-            key={chat.id}
-            conversation={chat}
-            isSelected={false}
-            onClick={() => handleSelectedConversation(chat)}
-          />
-        ))}
+        <ScrollArea className="rounded-md border border-gray-700 h-[84%] dark">
+          {filterConversations.map((chat) => (
+            <ConversationItem
+              key={chat.id}
+              conversation={chat}
+              isSelected={false}
+              onClick={() => handleSelectedConversation(chat)}
+            />
+          ))}
+        </ScrollArea>
       </div>
     </div>
   );

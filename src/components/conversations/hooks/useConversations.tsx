@@ -1,20 +1,20 @@
-"use client";
-
 import {
-  ChangeEvent,
   Dispatch,
   SetStateAction,
+  useContext,
   useEffect,
   useState,
 } from "react";
 import { Conversation, Filter, User } from "../domain";
 import axios, { AxiosError } from "axios";
 import useLocalStorage from "@/shared/hooks/useLocalStorage";
+import { AuthContext } from "@/contexts/authContext";
 
 export default function useConversations(
   setSelectedConversation: Dispatch<SetStateAction<Conversation | null>>
 ) {
   const { get } = useLocalStorage();
+  const { socket } = useContext(AuthContext);
 
   const [filterConversations, setFilter] = useState<Conversation[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -59,13 +59,13 @@ export default function useConversations(
     switch (text) {
       case Filter.FILTER_BY_GROUPS:
         setFilter(
-          conversations.filter((chat) => chat.name_conversation !== "" && chat)
+          conversations.filter((chat) => chat.name_conversation && chat)
         );
 
         break;
       case Filter.FILTER_BY_CONTACTS:
         setFilter(
-          conversations.filter((chat) => chat.name_conversation === "" && chat)
+          conversations.filter((chat) => !chat.name_conversation && chat)
         );
         break;
       default:
@@ -78,11 +78,27 @@ export default function useConversations(
     setClickOutside(true);
   }
   function handleClickOutside() {
+    setText("");
     setClickOutside(false);
   }
   function handleSelectedConversation(conversation: Conversation) {
     setSelectedConversation(conversation);
   }
+
+  useEffect(() => {
+    socket.on("addNewGroup", (newGroup: Conversation) => {
+      try {
+        /*  setConversations((prev) => [...prev, newGroup]); */
+        setFilter((prev) => [...prev, newGroup]);
+      } catch (error) {
+        console.error("Error receiving new conversation:", error);
+      }
+    });
+
+    return () => {
+      socket.off("addNewGroup");
+    };
+  }, [socket, setFilter, setConversations]);
 
   return {
     handleChangeText,
@@ -94,5 +110,6 @@ export default function useConversations(
     clickOutside,
     conversations,
     handleClickOutside,
+    setConversations,
   };
 }

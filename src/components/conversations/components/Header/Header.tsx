@@ -9,6 +9,7 @@ export default function Header({
   conversations,
   userName,
   setFilter,
+  setConversations,
 }: HeaderProps) {
   const {
     ClassInputSearch,
@@ -61,18 +62,18 @@ export default function Header({
             </div>
           </div>
 
-          <div
-            className="hover:bg-myColor-800 rounded-2xl flex-col relative transition"
-            onClick={handleSelectMenu}
-          >
+          <div className="hover:bg-myColor-800 rounded-2xl flex-col relative transition">
             <Image
               src={"/images/icons8-menu-100.png"}
               width={34}
               height={34}
               alt=""
               className="p-1 hover:border-2 border-myColor-700"
+              onClick={handleSelectMenu}
             ></Image>
-            {isSelectedMenu && <MenuConversation />}
+            {isSelectedMenu && (
+              <MenuConversation setConversations={setConversations} />
+            )}
           </div>
         </div>
       </div>

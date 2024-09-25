@@ -49,7 +49,7 @@ export default function useHeader(
       conversations.filter((conversation) => {
         const conversationName = conversation.name_conversation.toLowerCase();
 
-        if (conversation.name_conversation !== " ") {
+        if (conversation.name_conversation !== "") {
           return conversationName.includes(searchTerm);
         } else {
           const username = conversation.members[0].username.toLowerCase();

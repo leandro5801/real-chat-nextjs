@@ -13,10 +13,10 @@ export default function useConversationItem(conversation: Conversation) {
   const {} = conversation;
   const { formatConversationDate } = useConverterDate();
   const isGroup = useMemo(() => {
-    return name_conversation !== " ";
-  }, [name_conversation]);
+    return conversation.name_conversation !== "";
+  }, [conversation.name_conversation]);
   const hasMessage = useMemo(() => {
-    return messages.length > 0;
+    return messages && messages.length > 0;
   }, [messages]);
 
   function handleConversationIcon(): string {

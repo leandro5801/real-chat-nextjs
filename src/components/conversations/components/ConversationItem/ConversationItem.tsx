@@ -27,7 +27,7 @@ export default function ConversationItem({
   return (
     <>
       <div
-        className="flex justify-start content-center dark:bg-myColor-900 hover:bg-zinc-900"
+        className="flex justify-start content-center dark:bg-myColor-900 hover:bg-zinc-900 dark:hover:bg-zinc-900"
         onClick={onClick}
       >
         <ChatItem
