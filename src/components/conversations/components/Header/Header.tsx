@@ -4,6 +4,7 @@ import useHeader from "./hooks/useHeader";
 import HeaderProps from "./domain";
 import WordRotate from "@/shared/components/rotateText";
 import MenuConversation from "./components/MenuConversation/MenuConversation";
+import DeleteConversations from "../Forms/FormDeleteConversation/FormDeleteChat";
 
 export default function Header({
   conversations,
@@ -22,6 +23,8 @@ export default function Header({
     clearFilter,
     handleSelectMenu,
     isSelectedMenu,
+    isDeleting,
+    setIsDeleting,
   } = useHeader(conversations, setFilter);
 
   return (
@@ -72,8 +75,13 @@ export default function Header({
               onClick={handleSelectMenu}
             ></Image>
             {isSelectedMenu && (
-              <MenuConversation setConversations={setConversations} />
+              <MenuConversation
+                setConversations={setConversations}
+                setIsDeleting={setIsDeleting}
+                isDeleting={isDeleting}
+              />
             )}
+            {isDeleting && <DeleteConversations />}
           </div>
         </div>
       </div>

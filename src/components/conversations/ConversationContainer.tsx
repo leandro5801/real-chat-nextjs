@@ -25,7 +25,7 @@ export default function ConversationContainer({ selectConversation }: Props) {
   const { user } = useContext(AuthContext);
 
   return (
-    <div className="h-full max-w-md w-full flex">
+    <div className="h-full max-w-md w-full flex relative ">
       <div className="border-solid rounded h-full w-full bg-opacity-2 bg-myColor-900">
         <Header
           setConversations={setConversations}
@@ -59,7 +59,7 @@ export default function ConversationContainer({ selectConversation }: Props) {
             clickOutside={clickOutside}
           />
         </div>
-        <ScrollArea className="rounded-md border border-gray-700 h-[84%] dark">
+        <div className="h-[84%] dark overflow-y-scroll">
           {filterConversations.map((chat) => (
             <ConversationItem
               key={chat.id}
@@ -68,7 +68,7 @@ export default function ConversationContainer({ selectConversation }: Props) {
               onClick={() => handleSelectedConversation(chat)}
             />
           ))}
-        </ScrollArea>
+        </div>
       </div>
     </div>
   );

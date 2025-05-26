@@ -2,25 +2,31 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 
-import { Conversation, User } from "../../domain";
+import { Conversation, User } from "../../../domain";
 import useLocalStorage from "@/shared/hooks/useLocalStorage";
 
 import {
   Dialog,
   DialogContent,
   DialogFooter,
-  DialogHeader, 
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import {} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { Button } from "@nextui-org/react";
+
 import useFormCreateGroup from "./hooks/useFormCreateGroup";
+import {
+  UserRound,
+  UserRoundCog,
+  UserRoundPlus,
+  UsersRound,
+} from "lucide-react";
 
 interface Props {
   setConversations: Dispatch<SetStateAction<Conversation[]>>;
@@ -43,9 +49,10 @@ const FormCreateGroup = ({ setConversations }: Props) => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button
-            variant="faded"
-            className="w-full justify-start text-left font-normal bg-gray-800 text-gray-100 hover:bg-gray-900 hover:text-white transition-all duration-200 ease-in-out transform hover:scale-105 focus:ring-2 focus:ring-gray-400 focus:outline-none active:scale-95 rounded-none"
+            variant="outline"
+            className="w-full bg-gray-800 text-gray-200 hover:bg-gray-700 transition-colors duration-200"
           >
+            <UsersRound className="mr-2 h-4 w-4" />
             <span>Create Group</span>
           </Button>
         </DialogTrigger>
@@ -138,7 +145,7 @@ const FormCreateGroup = ({ setConversations }: Props) => {
           </div>
           <DialogFooter className="flex justify-between">
             <Button
-              variant="faded"
+              variant="outline"
               className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 ease-in-out bg-gray-950"
               onClick={() => setOpen(false)}
             >
@@ -146,7 +153,7 @@ const FormCreateGroup = ({ setConversations }: Props) => {
             </Button>
             <Button
               type="submit"
-              variant="faded"
+              variant="outline"
               className="border-green-500 text-green-500 hover:bg-green-500 hover:text-white transition-all duration-300 ease-in-out bg-gray-950"
               onClick={handleCreate}
             >
@@ -155,7 +162,6 @@ const FormCreateGroup = ({ setConversations }: Props) => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      )
     </>
   );
 };

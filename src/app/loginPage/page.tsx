@@ -86,13 +86,18 @@ const LoginPage = () => {
           position: "top-right",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       toast.done(id);
-
-      toast.error("Error in Server comeback later", {
-        autoClose: 1000,
-        hideProgressBar: true,
-      });
+      if (error.response.data.alreadyExists) {
+        toast.error("Error nombre de usuario ya ingresado", {
+          hideProgressBar: true,
+          position: "top-right",
+        });
+      } else
+        toast.error("Error in Server comeback later", {
+          autoClose: 1000,
+          hideProgressBar: true,
+        });
     } finally {
       setLoading(false);
     }

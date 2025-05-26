@@ -17,7 +17,7 @@ export default function useHeader(
 ) {
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [isSelectedMenu, setIsSelectedMenu] = useState<boolean>(false);
-
+  const [isDeleting, setIsDeleting] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const ClassContainerSearch = clsx(
     isSelected
@@ -79,5 +79,7 @@ export default function useHeader(
     clearFilter,
     handleSelectMenu,
     isSelectedMenu,
+    setIsDeleting,
+    isDeleting,
   };
 }

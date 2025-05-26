@@ -51,7 +51,7 @@ export default function useFormCreateGroup(
         members: [...selectedUsers, user],
         name_conversation: groupName,
       } as Conversation;
-      setConversations((prev) => [...prev]);
+      // setConversations((prev) => [...prev]);
       socket.emit("addNewConversation", conversation);
 
       setOpen(false);

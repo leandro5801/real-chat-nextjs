@@ -26,7 +26,7 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
     return get("token");
   }, []);
   const socket = useMemo(() => {
-    const token = get("token");
+    // const token = get("token");
     // useLocalStorage().remove("token");
     if (!token) {
       router.push("/loginPage");
@@ -68,7 +68,7 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
     socket.on("connectedUsers", (connectedUsers) => {
       setConnectedUsers(connectedUsers);
     });
-  }, [socket]);
+  }, []);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -89,7 +89,7 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
       }
     };
     fetchUserProfile();
-  }, [token]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ socket, connectedUsers, user }}>

@@ -86,19 +86,21 @@ export default function useConversations(
   }
 
   useEffect(() => {
-    socket.on("addNewGroup", (newGroup: Conversation) => {
+    socket.on("addNewChat", (newConversation: Conversation) => {
       try {
-        /*  setConversations((prev) => [...prev, newGroup]); */
-        setFilter((prev) => [...prev, newGroup]);
+        console.log(newConversation);
+        setConversations((prev) => [...prev, newConversation]);
+        setFilter((prev) => [...prev, newConversation]);
+        setSelectedConversation(newConversation);
       } catch (error) {
         console.error("Error receiving new conversation:", error);
       }
     });
 
     return () => {
-      socket.off("addNewGroup");
+      socket.off("addNewConversation");
     };
-  }, [socket, setFilter, setConversations]);
+  }, []);
 
   return {
     handleChangeText,
